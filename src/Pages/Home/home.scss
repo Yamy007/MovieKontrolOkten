@@ -1,0 +1,12 @@
+@import '../../styles/variables.scss';
+.contentMain {
+	overflow-x: scroll;
+	margin-bottom: 2vh;
+}
+.contentMain::-webkit-scrollbar-thumb {
+	background-color: $item-active;
+}
+.contentMain::-webkit-scrollbar {
+	height: 0.2vh;
+	background-color: #141414;
+}

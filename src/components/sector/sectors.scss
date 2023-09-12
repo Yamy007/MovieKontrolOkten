@@ -1,0 +1,18 @@
+.sectorsMain {
+	width: fit-content;
+	height: 32vh;
+	// background-color: aqua;
+
+	.title {
+		font-size: 1.6rem;
+		margin-bottom: 0.8vh;
+	}
+
+	.content {
+		margin: 0;
+		display: flex;
+		gap: 2vw;
+		height: 26vh;
+		overflow-y: hidden;
+	}
+}

@@ -1,0 +1,29 @@
+@import '../../styles/variables.scss';
+.card {
+	// width: 18vw;
+	height: 26vh;
+
+	.image {
+		// width: 100%;
+
+		img {
+			height: 20vh;
+			border-radius: 8px;
+			object-fit: cover;
+		}
+
+		:hover {
+			border: 1px solid $item-active;
+		}
+	}
+	.decryption {
+		.titleMovie {
+			color: $main-color-text;
+			font-size: medium;
+		}
+		.time {
+			font-size: small;
+			color: $item;
+		}
+	}
+}

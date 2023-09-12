@@ -1,0 +1,35 @@
+@import './../../styles/variables.scss';
+
+.searchIn {
+	background-color: $bg-color !important;
+	color: $main-color-text;
+	::placeholder {
+		/* Chrome, Firefox, Opera, Safari 10.1+ */
+		color: $main-color-text;
+		opacity: 1; /* Firefox */
+	}
+
+	:-ms-input-placeholder {
+		/* Internet Explorer 10-11 */
+		color: $main-color-text;
+	}
+
+	::-ms-input-placeholder {
+		/* Microsoft Edge */
+		color: $main-color-text;
+	}
+	:focus {
+		color: $main-color-text;
+	}
+}
+
+.btnIcon {
+	background-color: transparent !important;
+	:hover {
+		background-color: transparent !important;
+	}
+}
+.css-1x7jfmm-MuiPaper-root-MuiPopover-paper-MuiMenu-paper {
+	background-color: $bg-color !important;
+	color: $item !important;
+}
