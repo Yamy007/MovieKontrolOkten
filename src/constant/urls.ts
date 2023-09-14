@@ -8,14 +8,20 @@ const movie = 'movie/:id'
 const top_rated = 'movie/top_rated'
 const now_playing = 'movie/now_playing'
 const upcoming = '/movie/upcoming'
+
+const typeSearchQuery: string[] = ['Movie', 'People', 'Live Tv']
 const urls = {
 	top_rated,
 	popular,
 	now_playing,
 	upcoming,
+
 	movie: {
 		byId: (id: number) => `movie/${id}`,
+		searchMovie: (query: string) => `search/movie?query=${query}`,
+		searchPeople: (query: string) => `search/person?query=${query}`,
+		searchTv: (query: string) => `search/tv?query=${query}`,
 	},
 }
 
-export { baseURL, api_key, imageConst, urls, movie }
+export { baseURL, api_key, imageConst, urls, movie, typeSearchQuery }

@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { IResponseMovie } from '../../interface'
+import {
+	IResponseMovie,
+	ISearch,
+	ISearchParams,
+	ISearchRes,
+} from '../../interface'
 import { AxiosError } from 'axios'
 import { movieService } from '../../service'
 
@@ -8,7 +13,9 @@ interface IState {
 	popularMovie: IResponseMovie
 	now_playing: IResponseMovie
 	upcoming: IResponseMovie
+	search: ISearchRes
 }
+
 const initialState: IState = {
 	topMovie: {
 		page: 1,
@@ -33,6 +40,13 @@ const initialState: IState = {
 		results: [],
 		total_pages: 1,
 		total_results: 1,
+	},
+	search: {
+		page: 1,
+		results: [],
+		total_pages: 1,
+		total_results: 1,
+		isLoading: false,
 	},
 }
 
@@ -87,6 +101,19 @@ const getAllUpcoming = createAsyncThunk<IResponseMovie, void>(
 	}
 )
 
+const search = createAsyncThunk<ISearchRes, ISearchParams>(
+	'movieSlice/search',
+	async ({ query, type }, { rejectWithValue }) => {
+		try {
+			const { data } = await movieService.search(query, type)
+			return data
+		} catch (err) {
+			const e = err as AxiosError
+			return rejectWithValue(e.response?.data)
+		}
+	}
+)
+
 const MovieSlice = createSlice({
 	name: 'movieSlice',
 	initialState,
@@ -115,8 +142,19 @@ const MovieSlice = createSlice({
 			.addCase(getAllUpcoming.fulfilled, (state, { payload }) => {
 				state.upcoming.page = payload.page
 				state.upcoming.results = payload.results
+				state.upcoming.dates = payload.dates
 				state.upcoming.total_pages = payload.total_pages
 				state.upcoming.total_results = payload.total_results
+			})
+			.addCase(search.pending, (state, { payload }) => {
+				state.search.isLoading = true
+			})
+			.addCase(search.fulfilled, (state, { payload }) => {
+				state.search.isLoading = false
+				state.search.page = payload.page
+				state.search.results = payload.results
+				state.search.total_pages = payload.total_pages
+				state.search.total_results = payload.total_results
 			}),
 })
 
@@ -128,5 +166,6 @@ const movieActions = {
 	getAllPopular,
 	getAllNow,
 	getAllUpcoming,
+	search,
 }
 export { movieActions, movieReducer }

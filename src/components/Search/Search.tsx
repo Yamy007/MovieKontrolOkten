@@ -1,76 +1,52 @@
-import React from 'react'
+import React, { ChangeEvent, FormEvent } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import './search.scss'
 import { Button, IconButton, MenuItem, Paper } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import InputBase from '@mui/material/InputBase'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import Menu, { MenuProps } from '@mui/material/Menu'
-import { styled, alpha } from '@mui/material/styles'
-import EditIcon from '@mui/icons-material/Edit'
-import FileCopyIcon from '@mui/icons-material/FileCopy'
 import TheaterComedyIcon from '@mui/icons-material/TheaterComedy'
 import Divider from '@mui/material/Divider'
-import ArchiveIcon from '@mui/icons-material/Archive'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import LiveTvIcon from '@mui/icons-material/LiveTv'
 import LocalMoviesIcon from '@mui/icons-material/LocalMovies'
-const StyledMenu = styled((props: MenuProps) => (
-	<Menu
-		elevation={0}
-		anchorOrigin={{
-			vertical: 'bottom',
-			horizontal: 'right',
-		}}
-		transformOrigin={{
-			vertical: 'top',
-			horizontal: 'right',
-		}}
-		{...props}
-	/>
-))(({ theme }) => ({
-	'& .MuiPaper-root': {
-		borderRadius: 6,
-		marginTop: theme.spacing(1),
-		minWidth: 180,
-		color:
-			theme.palette.mode === 'light'
-				? 'rgb(55, 65, 81)'
-				: theme.palette.grey[300],
-		boxShadow:
-			'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-		'& .MuiMenu-list': {
-			padding: '4px 0',
-		},
-		'& .MuiMenuItem-root': {
-			'& .MuiSvgIcon-root': {
-				fontSize: 18,
-				color: theme.palette.text.secondary,
-				marginRight: theme.spacing(1.5),
-			},
-			'&:active': {
-				backgroundColor: alpha(
-					theme.palette.primary.main,
-					theme.palette.action.selectedOpacity
-				),
-			},
-		},
-	},
-}))
+import { StyledMenu } from '../menu/Menu'
+import { useAppDispatch } from '../../hooks'
+import { movieActions } from '../../redux'
+import { typeSearchQuery } from '../../constant'
+import { SearchBox } from './SearchBox'
 
 export const Search = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+	const [type, setType] = React.useState<string>('')
+	const [query, setQuery] = React.useState<string>('')
 	const open = Boolean(anchorEl)
+
+	const dispatch = useAppDispatch()
+
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorEl(event.currentTarget)
 	}
-	const handleClose = () => {
+
+	const handleClose = (type: string) => {
 		setAnchorEl(null)
+		setType(type)
+	}
+
+	const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e?.preventDefault()
+
+		dispatch(movieActions.search({ query, type }))
+	}
+
+	const onSearch = (search: string) => {
+		setQuery(search)
+		dispatch(movieActions.search({ query, type }))
 	}
 	return (
 		<Paper
 			className='searchIn'
 			component='form'
+			onSubmit={(e: FormEvent<HTMLFormElement>) => onSubmit(e)}
 			sx={{
 				p: '2px 4px',
 				display: 'flex',
@@ -101,18 +77,18 @@ export const Search = () => {
 				}}
 				anchorEl={anchorEl}
 				open={open}
-				onClose={handleClose}
+				onClose={() => handleClose('')}
 			>
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => handleClose(typeSearchQuery[0])} disableRipple>
 					<LocalMoviesIcon style={{ color: 'white' }} />
 					Movie
 				</MenuItem>
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => handleClose(typeSearchQuery[2])} disableRipple>
 					<LiveTvIcon style={{ color: 'white' }} />
 					Live Tv
 				</MenuItem>
 				<Divider sx={{ my: 0.5 }} style={{ background: 'white' }} />
-				<MenuItem onClick={handleClose} disableRipple>
+				<MenuItem onClick={() => handleClose(typeSearchQuery[1])} disableRipple>
 					<TheaterComedyIcon style={{ color: 'white' }} />
 					People
 				</MenuItem>
@@ -123,11 +99,16 @@ export const Search = () => {
 			</StyledMenu>
 			<InputBase
 				sx={{ ml: 2, flex: 1 }}
-				placeholder=''
+				style={{ color: 'white' }}
+				onClick={type ? () => 0 : handleClick}
+				onChange={(e: any) => onSearch(e.target.value)}
+				disabled={type ? false : true}
+				placeholder={type ? `search by ${type}` : ''}
 				inputProps={{ 'aria-label': 'search ' }}
 			/>
+			<SearchBox />
 			<IconButton
-				type='button'
+				type='submit'
 				sx={{ p: '10px', color: 'white' }}
 				aria-label='search'
 			>
