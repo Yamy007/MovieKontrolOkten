@@ -7,13 +7,13 @@ import './movies.scss'
 import { Button, Rating } from '@mui/material'
 export const MoviesPages = () => {
 	const { id } = useParams()
+	console.log(id)
 	const { cast } = useAppSelector(state => state.cast)
-	console.log(cast)
 	const dispatch = useAppDispatch()
 	useEffect(() => {
 		dispatch(movieActions.movieInfo(id))
 		dispatch(castActions.getAll(id))
-	}, [])
+	}, [id])
 	const {
 		overview,
 		backdrop_path,
@@ -28,7 +28,6 @@ export const MoviesPages = () => {
 		vote_average,
 		vote_count,
 	} = useAppSelector(state => state.movie.movie) || {}
-	console.log('con', overview)
 
 	return (
 		<>

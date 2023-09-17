@@ -4,6 +4,9 @@ import { imageConst, typeSearchQuery } from '../../constant'
 import { IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import './search.scss'
+import { redirect } from 'react-router-dom'
+
+import { Link } from 'react-router-dom'
 export interface ISearchBox extends PropsWithChildren {
 	setEnable: React.Dispatch<React.SetStateAction<boolean>>
 	type: string
@@ -24,35 +27,53 @@ export const SearchBox: FC<ISearchBox> = ({ setEnable, type }) => {
 				?.filter(elem => elem.profile_path || elem.poster_path)
 				.map((elem, index) => (
 					<div className='card-container' key={index}>
-						<div className='card'>
-							<div className='image'>
-								{(type === typeSearchQuery[0] ||
-									type === typeSearchQuery[2]) && (
-									<img src={imageConst + elem.poster_path} alt='' />
+						{type === typeSearchQuery[0] && (
+							<Link
+								to={`movies/${elem.id}/`}
+								style={{ textDecoration: 'none', color: 'inherit' }}
+							>
+								<div className='card'>
+									<div className='image'>
+										<img src={imageConst + elem.poster_path} alt='' />
+									</div>
+									<div className='description'>
+										<div className='tit'>{elem.title}</div>
+										<div className='desc'>{elem.vote_average}</div>
+									</div>
+								</div>
+							</Link>
+						)}
+						{type !== typeSearchQuery[0] && (
+							<div className='card'>
+								<div className='image'>
+									{(type === typeSearchQuery[0] ||
+										type === typeSearchQuery[2]) && (
+										<img src={imageConst + elem.poster_path} alt='' />
+									)}
+									{type === typeSearchQuery[1] && (
+										<img src={imageConst + elem.profile_path} alt='' />
+									)}
+								</div>
+								{type === typeSearchQuery[0] && (
+									<div className='description'>
+										<div className='tit'>{elem.title}</div>
+										<div className='desc'>{elem.vote_average}</div>
+									</div>
 								)}
 								{type === typeSearchQuery[1] && (
-									<img src={imageConst + elem.profile_path} alt='' />
+									<div className='description'>
+										<div className='tit'>{elem.name}</div>
+										<div className='desc'>{elem.original_name}</div>
+									</div>
+								)}
+								{type === typeSearchQuery[2] && (
+									<div className='description'>
+										<div className='tit'>{elem.name}</div>
+										<div className='desc'>{elem.vote_average}</div>
+									</div>
 								)}
 							</div>
-							{type === typeSearchQuery[0] && (
-								<div className='description'>
-									<div className='tit'>{elem.title}</div>
-									<div className='desc'>{elem.vote_average}</div>
-								</div>
-							)}
-							{type === typeSearchQuery[1] && (
-								<div className='description'>
-									<div className='tit'>{elem.name}</div>
-									<div className='desc'>{elem.original_name}</div>
-								</div>
-							)}
-							{type === typeSearchQuery[2] && (
-								<div className='description'>
-									<div className='tit'>{elem.name}</div>
-									<div className='desc'>{elem.vote_average}</div>
-								</div>
-							)}
-						</div>
+						)}
 					</div>
 				))}
 		</div>
