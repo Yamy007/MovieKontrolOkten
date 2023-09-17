@@ -1,0 +1,22 @@
+@import '../../styles/variables.scss';
+.filterBox {
+	width: 100%;
+
+	display: grid;
+	grid-template-columns: repeat(19, 1fr);
+	gap: 5px;
+	margin-top: 0.4vh;
+	margin-bottom: 0.7vh;
+	button {
+		outline: none;
+		border: none;
+		background-color: $button-color;
+		border-radius: 12px;
+		font-size: small;
+		color: $main-color-text;
+		cursor: pointer;
+	}
+	button:hover {
+		background-color: $button-color-hover;
+	}
+}

@@ -1,2 +1,5 @@
 export * from './Movie/MovieResponseInterface'
 export * from './Search/Search'
+export * from './Genre/genreInterface'
+export * from './Movie/Movie'
+export * from './Cast/Cast'

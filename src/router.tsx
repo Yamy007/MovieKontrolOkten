@@ -1,6 +1,7 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
 import { MainLayouts } from './layouts'
-import { HomePages } from './Pages'
+import { DiscoverPage, HomePages, MoviesPages } from './Pages'
+import { cloneElement } from 'react'
 
 export const router = createBrowserRouter([
 	{
@@ -10,6 +11,14 @@ export const router = createBrowserRouter([
 			{
 				index: true,
 				element: <HomePages />,
+			},
+			{
+				path: 'discover',
+				element: <DiscoverPage />,
+			},
+			{
+				path: 'movies/:id',
+				element: <MoviesPages />,
 			},
 		],
 	},

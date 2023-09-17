@@ -1,5 +1,5 @@
 import { typeSearchQuery, urls } from '../constant'
-import { IResponseMovie, ISearchRes } from '../interface'
+import { ICastRes, IMovieInfo, IResponseMovie, ISearchRes } from '../interface'
 import { apiService } from './apiService'
 export const movieService = {
 	getAllTop: () => apiService.get<IResponseMovie>(urls.top_rated),
@@ -12,7 +12,14 @@ export const movieService = {
 		} else if (type === typeSearchQuery[1]) {
 			return apiService.get<ISearchRes>(urls.movie.searchPeople(query))
 		} else {
-			return apiService.get<ISearchRes>(urls.movie.searchPeople(query))
+			return apiService.get<ISearchRes>(urls.movie.searchTv(query))
 		}
 	},
+	getDiscoverAll: (page: number | void) =>
+		apiService.get<IResponseMovie>(urls.discover.getAll(page)),
+	filter: (page: number | void, id: string | void) =>
+		apiService.get<IResponseMovie>(urls.discover.filter(page, id)),
+	getMovieById: (id: string) => apiService.get<IMovieInfo>(urls.movie.byId(id)),
+	getMovieByIdWithCast: (id: string) =>
+		apiService.get<ICastRes>(urls.movie.byIdWithCast(id)),
 }

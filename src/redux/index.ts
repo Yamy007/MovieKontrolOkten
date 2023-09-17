@@ -1,2 +1,5 @@
 export * from './store'
 export * from './slice/MovieSlice'
+export * from './slice/GenreSlice'
+export * from './slice/DiscoverSlice'
+export * from './slice/CastSlice'

@@ -1,28 +1,60 @@
-import React, { PropsWithChildren } from 'react'
+import React, { FC, PropsWithChildren } from 'react'
 import { useAppSelector } from '../../hooks'
-import { imageConst } from '../../constant'
-
-export interface ISearchBox extends PropsWithChildren {}
-export const SearchBox = () => {
+import { imageConst, typeSearchQuery } from '../../constant'
+import { IconButton } from '@mui/material'
+import CloseIcon from '@mui/icons-material/Close'
+import './search.scss'
+export interface ISearchBox extends PropsWithChildren {
+	setEnable: React.Dispatch<React.SetStateAction<boolean>>
+	type: string
+}
+export const SearchBox: FC<ISearchBox> = ({ setEnable, type }) => {
 	const { isLoading, results } = useAppSelector(state => state.movie.search)
-	console.log(results)
+
 	return (
 		<div className='searchBox'>
-			{isLoading && <span className='loader'></span>}
-			<div className='title'>People</div>
-			{results?.map((elem, index) => (
-				<div className='card-container' key={index}>
-					<div className='card'>
-						<div className='image'>
-							<img src={imageConst + elem.poster_path} />
-						</div>
-						<div className='description'>
-							<div className='tit'>{elem.title}</div>
-							<div className='desc'>{elem.vote_average}</div>
+			{isLoading && <span className='loader'> </span>}
+
+			<div className='title'>{type}</div>
+			{!isLoading && !results.length && <div className='none'>None</div>}
+			<IconButton className='close' onClick={() => setEnable(false)}>
+				<CloseIcon />
+			</IconButton>
+			{results
+				?.filter(elem => elem.profile_path || elem.poster_path)
+				.map((elem, index) => (
+					<div className='card-container' key={index}>
+						<div className='card'>
+							<div className='image'>
+								{(type === typeSearchQuery[0] ||
+									type === typeSearchQuery[2]) && (
+									<img src={imageConst + elem.poster_path} alt='' />
+								)}
+								{type === typeSearchQuery[1] && (
+									<img src={imageConst + elem.profile_path} alt='' />
+								)}
+							</div>
+							{type === typeSearchQuery[0] && (
+								<div className='description'>
+									<div className='tit'>{elem.title}</div>
+									<div className='desc'>{elem.vote_average}</div>
+								</div>
+							)}
+							{type === typeSearchQuery[1] && (
+								<div className='description'>
+									<div className='tit'>{elem.name}</div>
+									<div className='desc'>{elem.original_name}</div>
+								</div>
+							)}
+							{type === typeSearchQuery[2] && (
+								<div className='description'>
+									<div className='tit'>{elem.name}</div>
+									<div className='desc'>{elem.vote_average}</div>
+								</div>
+							)}
 						</div>
 					</div>
-				</div>
-			))}
+				))}
 		</div>
 	)
 }

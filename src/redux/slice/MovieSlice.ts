@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
+	IMovieInfo,
 	IResponseMovie,
 	ISearch,
 	ISearchParams,
@@ -14,6 +15,7 @@ interface IState {
 	now_playing: IResponseMovie
 	upcoming: IResponseMovie
 	search: ISearchRes
+	movie: IMovieInfo
 }
 
 const initialState: IState = {
@@ -48,6 +50,7 @@ const initialState: IState = {
 		total_results: 1,
 		isLoading: false,
 	},
+	movie: null,
 }
 
 const getAllTop = createAsyncThunk<IResponseMovie, void>(
@@ -114,6 +117,18 @@ const search = createAsyncThunk<ISearchRes, ISearchParams>(
 	}
 )
 
+const movieInfo = createAsyncThunk<IMovieInfo, string>(
+	'movieSlice/movieInfo',
+	async (id, { rejectWithValue }) => {
+		try {
+			const { data } = await movieService.getMovieById(id)
+			return data
+		} catch (err) {
+			const e = err as AxiosError
+			return rejectWithValue(e.response?.data)
+		}
+	}
+)
 const MovieSlice = createSlice({
 	name: 'movieSlice',
 	initialState,
@@ -155,6 +170,9 @@ const MovieSlice = createSlice({
 				state.search.results = payload.results
 				state.search.total_pages = payload.total_pages
 				state.search.total_results = payload.total_results
+			})
+			.addCase(movieInfo.fulfilled, (state, { payload }) => {
+				state.movie = payload
 			}),
 })
 
@@ -167,5 +185,6 @@ const movieActions = {
 	getAllNow,
 	getAllUpcoming,
 	search,
+	movieInfo,
 }
 export { movieActions, movieReducer }

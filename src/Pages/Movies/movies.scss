@@ -1,0 +1,98 @@
+@import '../../styles/variables.scss';
+.info {
+	display: grid;
+
+	grid-template-columns: repeat(2, 1fr);
+	// align-items: center;
+	height: fit-content;
+	.image {
+		img {
+			height: 45vh;
+			border-radius: 12px;
+			transition: transform 0.3s, box-shadow 0.3s;
+		}
+
+		img:hover {
+			box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+		}
+
+		.genre {
+			button {
+				margin-top: 0.7vh;
+				margin-right: 0.5vw;
+			}
+		}
+	}
+
+	.decsryption {
+		width: 30vw;
+		height: fit-content;
+		display: flex;
+		flex-direction: column;
+		justify-content: start;
+		// align-items: center;
+
+		.titleMovie {
+			color: $main-color-text;
+			width: 30vw;
+			display: flex;
+			justify-content: center;
+			font-size: x-large;
+			margin-bottom: 2vh;
+		}
+
+		.parametr {
+			display: flex;
+			flex-direction: column;
+			color: $item;
+			font-size: 1.2rem;
+			justify-content: start;
+			align-items: start;
+			margin-bottom: 2vh;
+		}
+		.overview {
+			color: $item;
+			font-size: large;
+		}
+	}
+}
+
+.cast {
+	height: fit-content;
+	display: grid;
+
+	width: 100%;
+	grid-template-columns: repeat(7, 1fr);
+	.card {
+		width: 100%;
+		height: fit-content;
+
+		display: flex;
+		align-items: center;
+		justify-content: start;
+		// padding-left: 2vw;
+		gap: 2vw;
+		overflow-y: scroll;
+
+		.image {
+			height: 9vh;
+			object-fit: contain;
+			box-sizing: border-box;
+			margin-top: 0.7vh;
+			margin-bottom: 0.5vh;
+
+			img {
+				height: 8vh;
+			}
+		}
+
+		.description {
+			.tit {
+				color: $main-color-text;
+			}
+			.desc {
+				color: $item;
+			}
+		}
+	}
+}

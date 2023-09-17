@@ -1,0 +1,20 @@
+.discover {
+	display: grid;
+	grid-template-columns: repeat(6, 1fr);
+	flex-wrap: wrap;
+	justify-content: space-between; /* Розподіл карточок по ширині */
+	align-content: space-between; /* Розподіл карточок по висоті */
+	height: fit-content; /* Займати всю доступну висоту екрану */
+	width: 100%; /* Займати всю доступну ширину екрану */
+
+	box-sizing: border-box;
+}
+
+.discoverBox {
+	display: flex;
+	min-height: fit-content;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	margin-bottom: 2vh;
+}

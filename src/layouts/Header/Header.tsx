@@ -5,12 +5,16 @@ import WidgetsIcon from '@mui/icons-material/Widgets'
 import IconButton from '@mui/material/IconButton'
 import { Search } from '../../components'
 import { Avatar } from '@mui/material'
-
-export interface Icon extends PropsWithChildren {
+import TuneIcon from '@mui/icons-material/Tune'
+import { useMatch } from 'react-router-dom'
+export interface IProps extends PropsWithChildren {
 	setClick: React.Dispatch<React.SetStateAction<boolean>>
+	setFilter: React.Dispatch<React.SetStateAction<boolean>>
+	filter: boolean
 }
 
-export const Header = ({ setClick }: Icon) => {
+export const Header = ({ setClick, setFilter, filter }: IProps) => {
+	const isDiscover = useMatch('/discover')
 	return (
 		<div className='headerContainer'>
 			<div className='widget'>
@@ -25,6 +29,15 @@ export const Header = ({ setClick }: Icon) => {
 			<div className='logo'>Yamy</div>
 			<div className='search'>
 				<Search />
+				{isDiscover && (
+					<IconButton
+						sx={{ marginLeft: '0.5vw' }}
+						onClick={() => setFilter(prev => !prev)}
+					>
+						<TuneIcon sx={filter ? { color: '#8d8c8c' } : { color: 'white' }} />
+					</IconButton>
+				)}
+				{/* {filter && <button className='filterBtnClear'>Clear</button>} */}
 			</div>
 			<div className='empty'></div>
 			<div className='panelRight'>

@@ -19,16 +19,21 @@ export const Search = () => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 	const [type, setType] = React.useState<string>('')
 	const [query, setQuery] = React.useState<string>('')
+	const [enable, setEnable] = React.useState<boolean>(false)
+
 	const open = Boolean(anchorEl)
 
 	const dispatch = useAppDispatch()
 
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		setEnable(false)
+
 		setAnchorEl(event.currentTarget)
 	}
 
 	const handleClose = (type: string) => {
 		setAnchorEl(null)
+		setEnable(false)
 		setType(type)
 	}
 
@@ -36,11 +41,14 @@ export const Search = () => {
 		e?.preventDefault()
 
 		dispatch(movieActions.search({ query, type }))
+		setEnable(true)
 	}
 
 	const onSearch = (search: string) => {
 		setQuery(search)
+		console.log(type)
 		dispatch(movieActions.search({ query, type }))
+		setEnable(search ? true : false)
 	}
 	return (
 		<Paper
@@ -92,10 +100,6 @@ export const Search = () => {
 					<TheaterComedyIcon style={{ color: 'white' }} />
 					People
 				</MenuItem>
-				{/* <MenuItem onClick={handleClose} disableRipple>
-					<MoreHorizIcon />
-					More
-				</MenuItem> */}
 			</StyledMenu>
 			<InputBase
 				sx={{ ml: 2, flex: 1 }}
@@ -106,7 +110,7 @@ export const Search = () => {
 				placeholder={type ? `search by ${type}` : ''}
 				inputProps={{ 'aria-label': 'search ' }}
 			/>
-			<SearchBox />
+			{enable && <SearchBox setEnable={setEnable} type={type} />}
 			<IconButton
 				type='submit'
 				sx={{ p: '10px', color: 'white' }}

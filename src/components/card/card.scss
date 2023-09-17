@@ -20,6 +20,8 @@
 		.titleMovie {
 			color: $main-color-text;
 			font-size: medium;
+			word-wrap: break-word;
+			box-sizing: border-box;
 		}
 		.time {
 			font-size: small;

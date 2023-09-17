@@ -1,18 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { FC } from 'react'
 import './home.scss'
 import { Sectors } from '../../components'
-import { useAppDispatch, useAppSelector } from '../../hooks'
-import { movieActions } from '../../redux/slice/MovieSlice'
+import { useAppSelector } from '../../hooks'
 import { IResponseMovie } from '../../interface'
 export const HomePages = () => {
-	const dispatch = useAppDispatch()
-	useEffect(() => {
-		dispatch(movieActions.getAllTop())
-		dispatch(movieActions.getAllPopular())
-		dispatch(movieActions.getAllNow())
-		dispatch(movieActions.getAllUpcoming())
-	}, [])
-
 	const { results: topResults }: IResponseMovie = useAppSelector(
 		state => state.movie.topMovie
 	)
