@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import {
 	IMovieInfo,
 	IResponseMovie,
-	ISearch,
 	ISearchParams,
 	ISearchRes,
 } from '../../interface'
